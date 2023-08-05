@@ -17,7 +17,7 @@ fetch(url)
     drawCanvas();
     generateScales();
     drawAxes();
-    // drawBars();
+    drawBars();
   });
 
 const drawCanvas = () => {
@@ -31,10 +31,9 @@ const drawBars = () => {
     .enter()
     .append("rect")
     .attr("class", "bar")
-    .attr("x", (d, i) => i * 7)
-    // .attr("y", height - padding - 100)
-    .attr("width", 5)
-    .attr("height", (d, i) => d[1]);
+    .attr("width", (width - padding * 2) / dataset.length)
+    .attr("data-date", (d) => d[0])
+    .attr("data-gdp", (d) => d[1]);
 };
 
 const generateScales = () => {
