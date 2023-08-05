@@ -4,7 +4,7 @@ const padding = 50;
 
 const svg = d3.select("svg");
 
-let dataset, xScale, yScale;
+let dataset, xScale, yScale, barHeightScale;
 
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
@@ -32,6 +32,7 @@ const drawBars = () => {
     .append("rect")
     .attr("class", "bar")
     .attr("width", (width - padding * 2) / dataset.length)
+    .attr("height", (d) => barHeightScale(d[1]))
     .attr("data-date", (d) => d[0])
     .attr("data-gdp", (d) => d[1]);
 };
@@ -47,6 +48,11 @@ const generateScales = () => {
     .scaleLinear()
     .domain([0, d3.max(dataset, (d) => d[1])])
     .range([height - padding, padding]);
+
+  barHeightScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(dataset, (d) => d[1])])
+    .range([0, height - padding * 2]);
 };
 
 const drawAxes = () => {
