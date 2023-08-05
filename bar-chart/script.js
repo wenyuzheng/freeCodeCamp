@@ -2,6 +2,8 @@ const width = 800;
 const height = 500;
 const padding = 20;
 
+const svg = d3.select("svg");
+
 let dataset;
 
 const url =
@@ -13,9 +15,22 @@ fetch(url)
     dataset = res.data;
 
     drawCanvas();
+    drawBars();
   });
 
 const drawCanvas = () => {
-  const svg = d3.select("svg");
   svg.attr("width", width).attr("height", height);
+};
+
+const drawBars = () => {
+  svg
+    .selectAll("rect")
+    .data(dataset)
+    .enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("x", (d, i) => i * 7)
+    // .attr("y", height - padding - 100)
+    .attr("width", 5)
+    .attr("height", (d, i) => d[1]);
 };
