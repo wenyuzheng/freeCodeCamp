@@ -38,6 +38,12 @@ const drawBars = () => {
 };
 
 const generateScales = () => {
+  const dates = dataset.map((d) => new Date(d[0]));
+  xScale = d3
+    .scaleTime()
+    .domain([d3.min(dates), d3.max(dates)])
+    .range([padding, width - padding]);
+
   yScale = d3
     .scaleLinear()
     .domain([0, d3.max(dataset, (d) => d[1])])
@@ -45,6 +51,13 @@ const generateScales = () => {
 };
 
 const drawAxes = () => {
+  const xAxis = d3.axisBottom(xScale);
+  svg
+    .append("g")
+    .call(xAxis)
+    .attr("id", "x-axis")
+    .attr("transform", `translate(0, ${height - padding})`);
+
   const yAxis = d3.axisLeft(yScale);
   svg
     .append("g")
