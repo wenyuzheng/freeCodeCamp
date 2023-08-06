@@ -19,6 +19,7 @@ fetch(url)
 
     drawCanvas();
     drawAxes();
+    drawDots();
   });
 
 const drawCanvas = () => {
@@ -67,4 +68,16 @@ const generateScales = () => {
     .range([h - padding, padding]);
 
   return { xScale, yScale };
+};
+
+const drawDots = () => {
+  svg
+    .selectAll("circle")
+    .data(dataset)
+    .enter()
+    .append("circle")
+    .attr("class", "dot")
+    .attr("r", 5)
+    .attr("cx", (d, i) => i)
+    .attr("cy", (d, i) => i);
 };
