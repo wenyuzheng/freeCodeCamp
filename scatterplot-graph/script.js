@@ -39,7 +39,7 @@ const addTitle = () => {
 const drawAxes = () => {
   const { xScale, yScale } = generateScales();
 
-  const xAxis = d3.axisBottom(xScale);
+  const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
   svg
     .append("g")
     .call(xAxis)
@@ -58,7 +58,7 @@ const generateScales = () => {
   const years = dataset.map((d) => d["Year"]);
   const xScale = d3
     .scaleLinear()
-    .domain([d3.min(years), d3.max(years)])
+    .domain([d3.min(years) - 1, d3.max(years) + 1])
     .range([padding, w - padding]);
 
   const seconds = dataset.map((d) => d["Seconds"]);
@@ -71,6 +71,8 @@ const generateScales = () => {
 };
 
 const drawDots = () => {
+  const { xScale, yScale } = generateScales();
+
   svg
     .selectAll("circle")
     .data(dataset)
@@ -78,8 +80,8 @@ const drawDots = () => {
     .append("circle")
     .attr("class", "dot")
     .attr("r", 5)
-    .attr("cx", (d, i) => i)
-    .attr("cy", (d, i) => i)
+    .attr("cx", (d) => xScale(d["Year"]))
+    // .attr("cy", (d) => yScale(d["Seconds"]))
     .attr("data-xvalue", (d) => d["Year"])
     .attr("data-yvalue", (d) => new Date(d["Seconds"] * 1000));
 };
