@@ -43,7 +43,12 @@ const drawBars = () => {
     .attr("y", (d, i) => height - padding - barHeightScale(d[1]))
     .attr("data-date", (d) => d[0])
     .attr("data-gdp", (d) => d[1])
-    .on("mouseover", () => tooltip.style("visibility", "visible"))
+    .on("mouseover", (e, d) =>
+      tooltip
+        .style("visibility", "visible")
+        .html(`${d[0]}<br>$${d[1]} Billion`)
+        .attr("data-date", d[0])
+    )
     .on("mouseout", () => tooltip.style("visibility", "hidden"));
 };
 
