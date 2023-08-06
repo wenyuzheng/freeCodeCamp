@@ -49,5 +49,9 @@ const drawAxes = (years) => {
   const { xScale } = generateScales(years);
 
   const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
-  svg.append("g").call(xAxis).attr("id", "x-axis");
+  svg
+    .append("g")
+    .call(xAxis)
+    .attr("id", "x-axis")
+    .attr("transform", `translate(0, ${h - padding})`);
 };
