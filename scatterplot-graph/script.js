@@ -20,6 +20,7 @@ fetch(url)
     drawCanvas();
     drawAxes();
     drawDots();
+    addLegend();
   });
 
 const drawCanvas = () => {
@@ -83,5 +84,38 @@ const drawDots = () => {
     .attr("cx", (d) => xScale(d["Year"]))
     .attr("cy", (d) => yScale(d["Seconds"] * 1000))
     .attr("data-xvalue", (d) => d["Year"])
-    .attr("data-yvalue", (d) => new Date(d["Seconds"] * 1000));
+    .attr("data-yvalue", (d) => new Date(d["Seconds"] * 1000))
+    .style("fill", (d) => (d["Doping"] ? "red" : "green"));
+};
+
+const addLegend = () => {
+  const legend = svg.append("g").attr("id", "legend");
+
+  legend
+    .append("text")
+    .text("With doping allegations")
+    .attr("x", w - 200)
+    .attr("y", h / 2);
+
+  legend
+    .append("rect")
+    .attr("width", 15)
+    .attr("height", 15)
+    .attr("fill", "red")
+    .attr("x", w - 220)
+    .attr("y", h / 2 - 12);
+
+  legend
+    .append("text")
+    .text("No doping allegations")
+    .attr("x", w - 200)
+    .attr("y", h / 2 - 20);
+
+  legend
+    .append("rect")
+    .attr("width", 15)
+    .attr("height", 15)
+    .attr("fill", "green")
+    .attr("x", w - 220)
+    .attr("y", h / 2 - 32);
 };
