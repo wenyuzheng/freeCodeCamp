@@ -78,7 +78,7 @@ const drawDots = () => {
     .select("body")
     .append("div")
     .attr("id", "tooltip")
-    .style("opacity", 0)
+    .style("visibility", "hidden")
     .text("tooltip");
 
   svg
@@ -94,15 +94,19 @@ const drawDots = () => {
     .attr("data-yvalue", (d) => new Date(d["Seconds"] * 1000))
     .style("fill", (d) => (d["Doping"] ? "red" : "green"))
     .on("mouseover", (e, d) => {
-      tooltip.style("opacity", 0.9).html(
-        `<strong>${d["Name"]}</strong>: ${d["Nationality"]}<br>
+      tooltip
+        .style("visibility", "visible")
+        .html(
+          `<strong>${d["Name"]}</strong>: ${d["Nationality"]}<br>
           Year: ${d["Year"]}<br>
           Time: ${d["Time"]}<br>
           ${d["Doping"] ? d["Doping"] : ""}
           `
-      );
+        )
+        .style("top", Math.ceil(e.pageY / 15) * 15 + "px")
+        .style("left", Math.ceil(e.pageX / 15) * 15 + "px");
     })
-    .on("mouseout", () => tooltip.style("opacity", 0));
+    .on("mouseout", () => tooltip.style("visibility", "hidden"));
 };
 
 const addLegend = () => {

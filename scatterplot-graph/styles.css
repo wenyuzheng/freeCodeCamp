@@ -10,3 +10,8 @@ svg {
     font-size: 30px;
     text-anchor: middle;
 }
+
+#tooltip {
+    position: absolute;
+    background-color: lightblue;
+}
