@@ -74,6 +74,13 @@ const generateScales = () => {
 const drawDots = () => {
   const { xScale, yScale } = generateScales();
 
+  const tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("id", "tooltip")
+    .style("opacity", 0)
+    .text("tooltip");
+
   svg
     .selectAll("circle")
     .data(dataset)
@@ -85,7 +92,17 @@ const drawDots = () => {
     .attr("cy", (d) => yScale(d["Seconds"] * 1000))
     .attr("data-xvalue", (d) => d["Year"])
     .attr("data-yvalue", (d) => new Date(d["Seconds"] * 1000))
-    .style("fill", (d) => (d["Doping"] ? "red" : "green"));
+    .style("fill", (d) => (d["Doping"] ? "red" : "green"))
+    .on("mouseover", (e, d) => {
+      tooltip.style("opacity", 0.9).html(
+        `<strong>${d["Name"]}</strong>: ${d["Nationality"]}<br>
+          Year: ${d["Year"]}<br>
+          Time: ${d["Time"]}<br>
+          ${d["Doping"] ? d["Doping"] : ""}
+          `
+      );
+    })
+    .on("mouseout", () => tooltip.style("opacity", 0));
 };
 
 const addLegend = () => {
