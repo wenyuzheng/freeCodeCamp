@@ -46,7 +46,7 @@ const drawAxes = () => {
     .attr("id", "x-axis")
     .attr("transform", `translate(0, ${h - padding})`);
 
-  const yAxis = d3.axisLeft(yScale);
+  const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
   svg
     .append("g")
     .call(yAxis)
@@ -61,9 +61,9 @@ const generateScales = () => {
     .domain([d3.min(years) - 1, d3.max(years) + 1])
     .range([padding, w - padding]);
 
-  const seconds = dataset.map((d) => d["Seconds"]);
+  const seconds = dataset.map((d) => new Date(d["Seconds"] * 1000));
   const yScale = d3
-    .scaleLinear()
+    .scaleTime()
     .domain([d3.min(seconds), d3.max(seconds)])
     .range([h - padding, padding]);
 
@@ -81,7 +81,7 @@ const drawDots = () => {
     .attr("class", "dot")
     .attr("r", 5)
     .attr("cx", (d) => xScale(d["Year"]))
-    // .attr("cy", (d) => yScale(d["Seconds"]))
+    .attr("cy", (d) => yScale(d["Seconds"] * 1000))
     .attr("data-xvalue", (d) => d["Year"])
     .attr("data-yvalue", (d) => new Date(d["Seconds"] * 1000));
 };
