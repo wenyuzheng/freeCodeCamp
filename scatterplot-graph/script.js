@@ -95,6 +95,7 @@ const drawDots = () => {
     .style("fill", (d) => (d["Doping"] ? "red" : "green"))
     .on("mouseover", (e, d) => {
       tooltip
+        .attr("data-year", d["Year"])
         .style("visibility", "visible")
         .html(
           `<strong>${d["Name"]}</strong>: ${d["Nationality"]}<br>
