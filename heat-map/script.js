@@ -16,12 +16,15 @@ fetch(url)
   .then((res) => {
     dataset = res;
     console.log(dataset);
-    addDescription();
+
+    const years = dataset.monthlyVariance.map((e) => e.year);
+
+    addDescription(years);
     drawCanvas();
+    drawAxes(years);
   });
 
-const addDescription = () => {
-  const years = dataset.monthlyVariance.map((e) => e.year);
+const addDescription = (years) => {
   document.getElementById(
     "description"
   ).textContent = `Base temperature in ${d3.min(years)} - ${d3.max(years)}: ${
@@ -31,4 +34,20 @@ const addDescription = () => {
 
 const drawCanvas = () => {
   svg.attr("width", w).attr("height", h);
+};
+
+const generateScales = (years) => {
+  const xScale = d3
+    .scaleLinear()
+    .domain([d3.min(years), d3.max(years)])
+    .range([padding, w - padding]);
+
+  return { xScale };
+};
+
+const drawAxes = (years) => {
+  const { xScale } = generateScales(years);
+
+  const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
+  svg.append("g").call(xAxis).attr("id", "x-axis");
 };
