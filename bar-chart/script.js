@@ -25,11 +25,7 @@ const drawCanvas = () => {
 };
 
 const drawBars = () => {
-  const tooltip = d3
-    .select("body")
-    .append("div")
-    .attr("id", "tooltip")
-    .text("tooltip here");
+  const tooltip = d3.select("body").append("div").attr("id", "tooltip");
 
   svg
     .selectAll("rect")
