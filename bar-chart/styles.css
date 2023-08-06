@@ -5,3 +5,12 @@ body {
 svg {
     background-color: bisque;
 }
+
+.bar:hover {
+    fill: brown;
+}
+
+#tooltip {
+    position: relative;
+    visibility: hidden;
+}

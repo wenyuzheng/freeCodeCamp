@@ -25,6 +25,12 @@ const drawCanvas = () => {
 };
 
 const drawBars = () => {
+  const tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("id", "tooltip")
+    .text("tooltip here");
+
   svg
     .selectAll("rect")
     .data(dataset)
@@ -36,7 +42,9 @@ const drawBars = () => {
     .attr("x", (d, i) => barXScale(i))
     .attr("y", (d, i) => height - padding - barHeightScale(d[1]))
     .attr("data-date", (d) => d[0])
-    .attr("data-gdp", (d) => d[1]);
+    .attr("data-gdp", (d) => d[1])
+    .on("mouseover", () => tooltip.style("visibility", "visible"))
+    .on("mouseout", () => tooltip.style("visibility", "hidden"));
 };
 
 const generateScales = () => {
