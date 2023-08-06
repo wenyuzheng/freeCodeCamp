@@ -79,5 +79,7 @@ const drawDots = () => {
     .attr("class", "dot")
     .attr("r", 5)
     .attr("cx", (d, i) => i)
-    .attr("cy", (d, i) => i);
+    .attr("cy", (d, i) => i)
+    .attr("data-xvalue", (d) => d["Year"])
+    .attr("data-yvalue", (d) => d["Time"]);
 };
