@@ -3,13 +3,13 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json";
 
-const w = 1000;
-const h = 500;
+const width = 1000;
+const height = 500;
 const padding = 50;
 
 const svg = d3.select("svg");
 
-let dataset, baseTemp;
+let dataset, baseTemp, xScale, yScale;
 
 fetch(url)
   .then((response) => response.json())
@@ -22,8 +22,9 @@ fetch(url)
 
     addDescription(years);
     drawCanvas();
-    drawAxes(years);
-    drawCell();
+    generateScales(years);
+    drawAxes();
+    drawCells();
   });
 
 const addDescription = (years) => {
@@ -35,33 +36,28 @@ const addDescription = (years) => {
 };
 
 const drawCanvas = () => {
-  svg.attr("width", w).attr("height", h);
+  svg.attr("width", width).attr("height", height);
 };
 
 const generateScales = (years) => {
-  const xScale = d3
+  xScale = d3
     .scaleLinear()
-    .domain([d3.min(years), d3.max(years)])
-    .range([padding, w - padding]);
+    .domain([d3.min(years), d3.max(years) + 1])
+    .range([padding, width - padding]);
 
-  const months = dataset.map((e) => e.month);
-  const yScale = d3
-    .scaleLinear()
-    .domain([d3.max(months), d3.min(months)])
-    .range([h - padding, padding]);
-
-  return { xScale, yScale };
+  yScale = d3
+    .scaleTime()
+    .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 12, 0, 0, 0, 0, 0)])
+    .range([padding, height - padding]);
 };
 
-const drawAxes = (years) => {
-  const { xScale, yScale } = generateScales(years);
-
+const drawAxes = () => {
   const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
   svg
     .append("g")
     .call(xAxis)
     .attr("id", "x-axis")
-    .attr("transform", `translate(0, ${h - padding})`);
+    .attr("transform", `translate(0, ${height - padding})`);
 
   const yAxis = d3.axisLeft(yScale);
   svg
@@ -71,7 +67,7 @@ const drawAxes = (years) => {
     .attr("transform", `translate(${padding}, 0)`);
 };
 
-const drawCell = () => {
+const drawCells = () => {
   svg
     .selectAll("rect")
     .data(dataset)
@@ -91,5 +87,7 @@ const drawCell = () => {
     })
     .attr("data-month", (d) => d.month - 1)
     .attr("data-year", (d) => d.year)
-    .attr("data-temp", (d) => baseTemp + d.variance);
+    .attr("data-temp", (d) => baseTemp + d.variance)
+    .attr("height", (height - padding * 2) / 12)
+    .attr("y", (d) => yScale(new Date(0, d.month - 1, 0, 0, 0, 0, 0)));
 };
