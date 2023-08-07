@@ -6,6 +6,11 @@ svg {
     background-color: bisque;
 }
 
+.cell:hover {
+    stroke-width: 0.5;
+    stroke: black
+}
+
 #legend {
     background-color: transparent;
 }
@@ -14,4 +19,5 @@ svg {
     visibility: hidden;
     height: auto;
     width: auto;
+    position: absolute
 }

@@ -3,7 +3,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 const url =
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json";
 
-const width = 1000;
+const width = 1500;
 const height = 500;
 const padding = 60;
 
@@ -103,7 +103,9 @@ const drawCells = () => {
     .on("mouseover", (e, d) => {
       tooltip
         .style("visibility", "visible")
-        .text(`${d.month}/${d.year}: ${(baseTemp + d.variance).toFixed(2)}℃`);
+        .text(`${d.month}/${d.year}: ${(baseTemp + d.variance).toFixed(2)}℃`)
+        .style("top", Math.ceil(e.pageY / 15) * 15 + "px")
+        .style("left", Math.ceil(e.pageX / 15) * 15 + "px");
     })
     .on("mouseout", () => {
       tooltip.style("visibility", "hidden");
