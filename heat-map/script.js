@@ -5,7 +5,7 @@ const url =
 
 const width = 1000;
 const height = 500;
-const padding = 50;
+const padding = 60;
 
 const svg = d3.select("svg");
 
@@ -59,7 +59,7 @@ const drawAxes = () => {
     .attr("id", "x-axis")
     .attr("transform", `translate(0, ${height - padding})`);
 
-  const yAxis = d3.axisLeft(yScale);
+  const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%B"));
   svg
     .append("g")
     .call(yAxis)
