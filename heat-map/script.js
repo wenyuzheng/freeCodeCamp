@@ -9,15 +9,16 @@ const padding = 50;
 
 const svg = d3.select("svg");
 
-let dataset;
+let dataset, baseTemp;
 
 fetch(url)
   .then((response) => response.json())
   .then((res) => {
-    dataset = res;
+    baseTemp = res.baseTemperature;
+    dataset = res.monthlyVariance;
     console.log(dataset);
 
-    const years = dataset.monthlyVariance.map((e) => e.year);
+    const years = dataset.map((e) => e.year);
 
     addDescription(years);
     drawCanvas();
@@ -28,9 +29,9 @@ fetch(url)
 const addDescription = (years) => {
   document.getElementById(
     "description"
-  ).textContent = `Base temperature in ${d3.min(years)} - ${d3.max(years)}: ${
-    dataset.baseTemperature
-  } ℃`;
+  ).textContent = `Base temperature in ${d3.min(years)} - ${d3.max(
+    years
+  )}: ${baseTemp} ℃`;
 };
 
 const drawCanvas = () => {
@@ -43,7 +44,7 @@ const generateScales = (years) => {
     .domain([d3.min(years), d3.max(years)])
     .range([padding, w - padding]);
 
-  const months = dataset.monthlyVariance.map((e) => e.month);
+  const months = dataset.map((e) => e.month);
   const yScale = d3
     .scaleLinear()
     .domain([d3.max(months), d3.min(months)])
@@ -73,7 +74,7 @@ const drawAxes = (years) => {
 const drawCell = () => {
   svg
     .selectAll("rect")
-    .data(dataset.monthlyVariance)
+    .data(dataset)
     .enter()
     .append("rect")
     .attr("class", "cell")
@@ -87,5 +88,8 @@ const drawCell = () => {
       } else {
         return "orange";
       }
-    });
+    })
+    .attr("data-month", (d) => d.month)
+    .attr("data-year", (d) => d.year)
+    .attr("data-temp", (d) => d.variance);
 };
