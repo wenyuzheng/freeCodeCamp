@@ -22,6 +22,7 @@ fetch(url)
     addDescription(years);
     drawCanvas();
     drawAxes(years);
+    drawCell();
   });
 
 const addDescription = (years) => {
@@ -67,4 +68,13 @@ const drawAxes = (years) => {
     .call(yAxis)
     .attr("id", "y-axis")
     .attr("transform", `translate(${padding}, 0)`);
+};
+
+const drawCell = () => {
+  svg
+    .selectAll("rect")
+    .data(dataset.monthlyVariance)
+    .enter()
+    .append("rect")
+    .attr("class", "cell");
 };
