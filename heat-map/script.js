@@ -76,5 +76,16 @@ const drawCell = () => {
     .data(dataset.monthlyVariance)
     .enter()
     .append("rect")
-    .attr("class", "cell");
+    .attr("class", "cell")
+    .style("fill", (d) => {
+      if (d.variance <= -1) {
+        return "blue";
+      } else if (d.variance <= 0) {
+        return "lightblue";
+      } else if (d.variance <= 1) {
+        return "yellow";
+      } else {
+        return "orange";
+      }
+    });
 };
