@@ -105,7 +105,8 @@ const drawCells = () => {
         .style("visibility", "visible")
         .text(`${d.month}/${d.year}: ${(baseTemp + d.variance).toFixed(2)}℃`)
         .style("top", Math.ceil(e.pageY / 15) * 15 + "px")
-        .style("left", Math.ceil(e.pageX / 15) * 15 + "px");
+        .style("left", Math.ceil(e.pageX / 15) * 15 + "px")
+        .attr("data-year", d.year);
     })
     .on("mouseout", () => {
       tooltip.style("visibility", "hidden");
