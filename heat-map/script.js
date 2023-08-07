@@ -89,7 +89,7 @@ const drawCell = () => {
         return "orange";
       }
     })
-    .attr("data-month", (d) => d.month)
+    .attr("data-month", (d) => d.month - 1)
     .attr("data-year", (d) => d.year)
-    .attr("data-temp", (d) => d.variance);
+    .attr("data-temp", (d) => baseTemp + d.variance);
 };
