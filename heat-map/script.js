@@ -68,6 +68,8 @@ const drawAxes = () => {
 };
 
 const drawCells = () => {
+  const years = dataset.map((e) => e.year);
+
   svg
     .selectAll("rect")
     .data(dataset)
@@ -88,6 +90,8 @@ const drawCells = () => {
     .attr("data-month", (d) => d.month - 1)
     .attr("data-year", (d) => d.year)
     .attr("data-temp", (d) => baseTemp + d.variance)
+    .attr("y", (d) => yScale(new Date(0, d.month - 1, 0, 0, 0, 0, 0)))
+    .attr("x", (d) => xScale(d.year))
     .attr("height", (height - padding * 2) / 12)
-    .attr("y", (d) => yScale(new Date(0, d.month - 1, 0, 0, 0, 0, 0)));
+    .attr("width", (width - padding * 2) / (d3.max(years) - d3.min(years)));
 };
