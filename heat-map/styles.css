@@ -9,3 +9,9 @@ svg {
 #legend {
     background-color: transparent;
 }
+
+#tooltip {
+    visibility: hidden;
+    height: auto;
+    width: auto;
+}

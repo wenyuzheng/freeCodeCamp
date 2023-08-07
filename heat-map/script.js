@@ -70,6 +70,8 @@ const drawAxes = () => {
 const drawCells = () => {
   const years = dataset.map((e) => e.year);
 
+  const tooltip = d3.select("#tooltip");
+
   svg
     .selectAll("rect")
     .data(dataset)
@@ -97,5 +99,13 @@ const drawCells = () => {
     .attr("y", (d) => yScale(new Date(0, d.month - 1, 0, 0, 0, 0, 0)))
     .attr("x", (d) => xScale(d.year))
     .attr("height", (height - padding * 2) / 12)
-    .attr("width", (width - padding * 2) / (d3.max(years) - d3.min(years)));
+    .attr("width", (width - padding * 2) / (d3.max(years) - d3.min(years)))
+    .on("mouseover", (e, d) => {
+      tooltip
+        .style("visibility", "visible")
+        .text(`${d.month}/${d.year}: ${(baseTemp + d.variance).toFixed(2)}℃`);
+    })
+    .on("mouseout", () => {
+      tooltip.style("visibility", "hidden");
+    });
 };
