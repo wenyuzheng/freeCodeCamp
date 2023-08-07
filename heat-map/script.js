@@ -42,11 +42,17 @@ const generateScales = (years) => {
     .domain([d3.min(years), d3.max(years)])
     .range([padding, w - padding]);
 
-  return { xScale };
+  const months = dataset.monthlyVariance.map((e) => e.month);
+  const yScale = d3
+    .scaleLinear()
+    .domain([d3.max(months), d3.min(months)])
+    .range([h - padding, padding]);
+
+  return { xScale, yScale };
 };
 
 const drawAxes = (years) => {
-  const { xScale } = generateScales(years);
+  const { xScale, yScale } = generateScales(years);
 
   const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
   svg
@@ -54,4 +60,11 @@ const drawAxes = (years) => {
     .call(xAxis)
     .attr("id", "x-axis")
     .attr("transform", `translate(0, ${h - padding})`);
+
+  const yAxis = d3.axisLeft(yScale);
+  svg
+    .append("g")
+    .call(yAxis)
+    .attr("id", "y-axis")
+    .attr("transform", `translate(${padding}, 0)`);
 };
