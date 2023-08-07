@@ -5,3 +5,7 @@ body {
 svg {
     background-color: bisque;
 }
+
+#legend {
+    background-color: transparent;
+}

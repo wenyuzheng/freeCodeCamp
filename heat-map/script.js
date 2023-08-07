@@ -77,14 +77,18 @@ const drawCells = () => {
     .append("rect")
     .attr("class", "cell")
     .style("fill", (d) => {
-      if (d.variance <= -1) {
-        return "blue";
+      if (d.variance <= -2) {
+        return "rgb(69, 117, 180)";
+      } else if (d.variance <= -1) {
+        return "rgb(171, 217, 233)";
       } else if (d.variance <= 0) {
-        return "lightblue";
+        return "rgb(255, 255, 191)";
       } else if (d.variance <= 1) {
-        return "yellow";
+        return "rgb(253, 174, 97)";
+      } else if (d.variance <= 2) {
+        return "rgb(244, 109, 67)";
       } else {
-        return "orange";
+        return "rgb(215, 48, 39)";
       }
     })
     .attr("data-month", (d) => d.month - 1)
