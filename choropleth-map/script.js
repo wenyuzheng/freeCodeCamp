@@ -5,8 +5,6 @@ const countyURL =
 const educationURL =
   "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json";
 
-const svg = d3.select("svg");
-
 let countyDataset, educationDataset;
 
 d3.json(countyURL).then((data) => {
@@ -18,10 +16,13 @@ d3.json(countyURL).then((data) => {
     console.log(countyDataset, educationDataset);
 
     drawMap();
+    drawLegend();
   });
 });
 
 const drawMap = () => {
+  const svg = d3.select("svg");
+
   const tooltip = d3
     .select("body")
     .append("div")
@@ -69,4 +70,52 @@ const drawMap = () => {
     .on("mouseout", () => {
       tooltip.style("visibility", "hidden");
     });
+};
+
+const drawLegend = () => {
+  const legendWidth = 300;
+  const legend = d3.select("#legend").attr("width", legendWidth + 20);
+  const [min, max] = d3.extent(educationDataset, (e) => e.bachelorsOrHigher);
+
+  const xScale = d3
+    .scaleLinear()
+    .domain([min, max])
+    .rangeRound([0, legendWidth]);
+  const colorScale = d3
+    .scaleThreshold()
+    .domain(d3.range(min, max, (max - min) / 8))
+    .range(d3.schemeGreens[9]);
+
+  // Add color boxes
+  legend
+    .selectAll("rect")
+    .data(
+      colorScale.range().map((e) => {
+        e = colorScale.invertExtent(e);
+
+        if (!e[0]) e[0] = xScale.domain()[0];
+        if (!e[1]) e[1] = xScale.domain()[1];
+
+        return e;
+      })
+    )
+    .enter()
+    .append("rect")
+    .attr("width", (d) => xScale(d[1]) - xScale(d[0]))
+    .attr("height", 8)
+    .attr("x", (d) => xScale(d[0]) + 10)
+    .attr("fill", (d) => colorScale(d[0]));
+
+  // Draw Axis
+  const axis = d3
+    .axisBottom(xScale)
+    .tickFormat((i) => Math.round(i) + "%")
+    .tickValues(colorScale.domain())
+    .tickSize(15);
+  legend
+    .append("g")
+    .attr("id", "color-axis")
+    .attr("class", "color-tick")
+    .attr("transform", `translate(10, 0)`)
+    .call(axis);
 };
