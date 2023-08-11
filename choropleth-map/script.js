@@ -26,7 +26,6 @@ const drawMap = () => {
     .select("body")
     .append("div")
     .attr("id", "tooltip")
-    .text("tool")
     .style("visibility", "hidden");
 
   svg
@@ -64,7 +63,8 @@ const drawMap = () => {
           `${county.area_name}, ${county.state}: ${county.bachelorsOrHigher}%`
         )
         .style("left", `${e.pageX}px`)
-        .style("top", `${e.pageY + 28}px`);
+        .style("top", `${e.pageY + 28}px`)
+        .attr("data-education", county.bachelorsOrHigher);
     })
     .on("mouseout", () => {
       tooltip.style("visibility", "hidden");
