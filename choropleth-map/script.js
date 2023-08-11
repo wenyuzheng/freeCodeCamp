@@ -21,15 +21,13 @@ d3.json(countyURL).then((data) => {
 });
 
 const drawMap = () => {
-  const svg = d3.select("svg");
-
   const tooltip = d3
     .select("body")
     .append("div")
     .attr("id", "tooltip")
     .style("visibility", "hidden");
 
-  svg
+  d3.select("svg")
     .selectAll("path")
     .data(countyDataset)
     .enter()
@@ -112,6 +110,7 @@ const drawLegend = () => {
     .tickFormat((i) => Math.round(i) + "%")
     .tickValues(colorScale.domain())
     .tickSize(15);
+
   legend
     .append("g")
     .attr("id", "color-axis")
