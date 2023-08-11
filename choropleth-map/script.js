@@ -30,9 +30,9 @@ const drawMap = () => {
     .attr("d", d3.geoPath())
     .attr("class", "county")
     .attr("fill", (countyData) => {
-      const percentage = educationDataset.find((e) => e.fips === countyData.id)[
-        "bachelorsOrHigher"
-      ];
+      const percentage = educationDataset.find(
+        (e) => e.fips === countyData.id
+      ).bachelorsOrHigher;
       if (percentage <= 15) {
         return "rgb(199, 233, 192)";
       } else if (percentage <= 30) {
