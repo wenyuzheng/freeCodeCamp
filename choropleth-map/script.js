@@ -7,15 +7,15 @@ const educationURL =
 
 const svg = d3.select("svg");
 
-let countyData, educationData;
+let countyDataset, educationDataset;
 
 d3.json(countyURL).then((data) => {
-  countyData = topojson.feature(data, data.objects.counties).features;
+  countyDataset = topojson.feature(data, data.objects.counties).features;
 
   d3.json(educationURL).then((data) => {
-    educationData = data;
+    educationDataset = data;
 
-    console.log(countyData, educationData);
+    console.log(countyDataset, educationDataset);
 
     drawMap();
   });
@@ -24,9 +24,23 @@ d3.json(countyURL).then((data) => {
 const drawMap = () => {
   svg
     .selectAll("path")
-    .data(countyData)
+    .data(countyDataset)
     .enter()
     .append("path")
     .attr("d", d3.geoPath())
-    .attr("class", "county");
+    .attr("class", "county")
+    .attr("fill", (countyData) => {
+      const percentage = educationDataset.find((e) => e.fips === countyData.id)[
+        "bachelorsOrHigher"
+      ];
+      if (percentage <= 15) {
+        return "rgb(199, 233, 192)";
+      } else if (percentage <= 30) {
+        return "rgb(161, 217, 155)";
+      } else if (percentage <= 45) {
+        return "rgb(65, 171, 93)";
+      } else {
+        return "rgb(35, 139, 69)";
+      }
+    });
 };
