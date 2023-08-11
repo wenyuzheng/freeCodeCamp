@@ -42,5 +42,11 @@ const drawMap = () => {
       } else {
         return "rgb(35, 139, 69)";
       }
-    });
+    })
+    .attr("data-fips", (countyData) => countyData.id)
+    .attr(
+      "data-education",
+      (countyData) =>
+        educationDataset.find((e) => e.fips === countyData.id).bachelorsOrHigher
+    );
 };
