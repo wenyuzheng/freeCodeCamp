@@ -11,7 +11,24 @@
     <h1 id="title">United States Educational Attainment</h1>
     <div id="description">Percentage of adults age 25 and older with a bachelor's degree or higher (2010-2014)</div>
     <svg id="canvas"></svg>
-    <svg id="legend"></svg>
+    <svg id="legend">
+        <g>
+            <rect fill="rgb(199, 233, 192)" width="20" height="20" x="10" y="10"></rect>
+            <text x="35" y="25">Below and includes 15%</text>
+        </g>
+        <g>
+            <rect fill="rgb(161, 217, 155)" width="20" height="20" x="10" y="30"></rect>
+            <text x="35" y="45">Below and includes 30%</text>
+        </g>
+        <g>
+            <rect fill="rgb(65, 171, 93)" width="20" height="20" x="10" y="50"></rect>
+            <text x="35" y="65">Below and includes 45%</text>
+        </g>
+        <g>
+            <rect fill="rgb(35, 139, 69)" width="20" height="20" x="10" y="70"></rect>
+            <text x="35" y="85">Above 45%</text>
+        </g>
+    </svg>
 </body>
 <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
 <script src="script.js" type="module"></script>
