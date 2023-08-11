@@ -62,7 +62,9 @@ const drawMap = () => {
         .style("visibility", "visible")
         .html(
           `${county.area_name}, ${county.state}: ${county.bachelorsOrHigher}%`
-        );
+        )
+        .style("left", `${e.pageX}px`)
+        .style("top", `${e.pageY + 28}px`);
     })
     .on("mouseout", () => {
       tooltip.style("visibility", "hidden");
