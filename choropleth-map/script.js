@@ -22,6 +22,13 @@ d3.json(countyURL).then((data) => {
 });
 
 const drawMap = () => {
+  const tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("id", "tooltip")
+    .text("tool")
+    .style("visibility", "hidden");
+
   svg
     .selectAll("path")
     .data(countyDataset)
@@ -48,5 +55,16 @@ const drawMap = () => {
       "data-education",
       (countyData) =>
         educationDataset.find((e) => e.fips === countyData.id).bachelorsOrHigher
-    );
+    )
+    .on("mouseover", (e, countyData) => {
+      const county = educationDataset.find((e) => e.fips === countyData.id);
+      tooltip
+        .style("visibility", "visible")
+        .html(
+          `${county.area_name}, ${county.state}: ${county.bachelorsOrHigher}%`
+        );
+    })
+    .on("mouseout", () => {
+      tooltip.style("visibility", "hidden");
+    });
 };
