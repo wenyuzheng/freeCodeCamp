@@ -32,6 +32,12 @@ const drawTreemap = () => {
   d3.treemap().size([width, height])(rootData);
   //   console.log(rootData.leaves());
 
+  const tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("id", "tooltip")
+    .style("visibility", "hidden");
+
   // Draw canvas
   const canvas = d3
     .select("#canvas")
@@ -52,7 +58,15 @@ const drawTreemap = () => {
     .attr("width", (d) => d.x1 - d.x0)
     .attr("height", (d) => d.y1 - d.y0)
     .attr("transform", (d) => `translate(${d.x0}, ${d.y0})`)
-    .style("stroke", "black");
+    .style("stroke", "black")
+    .on("mouseover", (e, d) => {
+      tooltip
+        .html(
+          `Name: ${d.data.name}<br/>Category: ${d.data.category}<br/>Value: ${d.data.value}`
+        )
+        .style("visibility", "visible");
+    })
+    .on("mouseout", () => tooltip.style("visibility", "hidden"));
 };
 
 const addLegend = () => {
