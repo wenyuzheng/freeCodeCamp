@@ -15,23 +15,21 @@ let dataset;
 d3.json(url).then((data) => {
   dataset = data;
 
-  console.log(dataset);
-
   drawTreemap();
   addLegend();
 });
 
 const drawTreemap = () => {
-  // Convert data to treemap
+  // Convert data object to hierarchy
   const rootData = d3
     .hierarchy(dataset)
     .sum((d) => d.value)
     .sort((a, b) => b.value - a.value);
 
-  //   console.log(rootData.leaves());
-  d3.treemap().size([width, height])(rootData);
-  //   console.log(rootData.leaves());
+  // Create treemap using hierarchy data as arguments
+  d3.treemap().size([width, height]).padding(1)(rootData);
 
+  // Create tooltip
   const tooltip = d3
     .select("body")
     .append("div")
@@ -58,7 +56,7 @@ const drawTreemap = () => {
     .attr("width", (d) => d.x1 - d.x0)
     .attr("height", (d) => d.y1 - d.y0)
     .attr("transform", (d) => `translate(${d.x0}, ${d.y0})`)
-    .style("stroke", "black")
+    .style("stroke", "white")
     .on("mouseover", (e, d) => {
       tooltip
         .html(

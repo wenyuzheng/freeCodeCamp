@@ -2,6 +2,10 @@ body {
     text-align: center;
 }
 
+#canvas {
+    margin: 10px
+}
+
 #tooltip {
     position: absolute;
     z-index: 1;
