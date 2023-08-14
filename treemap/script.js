@@ -43,10 +43,14 @@ const drawTreemap = () => {
     .attr("height", height);
 
   // Add rect tiles
-  canvas
-    .selectAll("rect")
+  const group = canvas
+    .selectAll("g")
     .data(rootData.leaves())
     .enter()
+    .append("g")
+    .attr("transform", (d) => `translate(${d.x0}, ${d.y0})`);
+
+  group
     .append("rect")
     .attr("class", "tile")
     .attr("fill", (d) => colors(d.data.category))
@@ -55,7 +59,6 @@ const drawTreemap = () => {
     .attr("data-value", (d) => d.data.value)
     .attr("width", (d) => d.x1 - d.x0)
     .attr("height", (d) => d.y1 - d.y0)
-    .attr("transform", (d) => `translate(${d.x0}, ${d.y0})`)
     .style("stroke", "white")
     .on("mouseover", (e, d) => {
       tooltip
@@ -68,6 +71,13 @@ const drawTreemap = () => {
         .style("left", d.x1 + "px");
     })
     .on("mouseout", () => tooltip.style("visibility", "hidden"));
+
+  group
+    .append("text")
+    .text((d) => d.data.name)
+    .attr("x", 1)
+    .attr("y", 30)
+    .attr("font-size", "0.6em");
 };
 
 const addLegend = () => {
