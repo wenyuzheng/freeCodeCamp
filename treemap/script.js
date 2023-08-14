@@ -57,18 +57,24 @@ const drawTreemap = () => {
 
 const addLegend = () => {
   const categories = dataset.children.map((e) => e.name);
-  console.log(categories);
-  const legend = d3.select("#legend").attr("width", 600).attr("height", 400);
 
-  //   legend
-  //     .selectAll("rect")
-  //     .data(categories)
-  //     .enter()
-  //     .append("rect")
-  //     .attr("class", "legend-item")
-  //     .attr("fill", (d) => colors(d))
-  //     .attr("width", "30px")
-  //     .attr("height", "30px")
-  //     .attr("y", (d, i) => (i % (categories.length / 2)) * 35)
-  //     .attr("x", (d, i) => (i % 2) * 35);
+  const legend = d3.select("#legend").attr("width", 600).attr("height", 400);
+  const legendItem = legend.selectAll("g").data(categories).enter().append("g");
+
+  const rowsNum = 5;
+
+  legendItem
+    .append("rect")
+    .attr("class", "legend-item")
+    .attr("fill", (d) => colors(d))
+    .attr("width", "30px")
+    .attr("height", "30px")
+    .attr("y", (d, i) => Math.floor(i / rowsNum) * 35)
+    .attr("x", (d, i) => (i % rowsNum) * 100);
+
+  legendItem
+    .append("text")
+    .text((d) => d)
+    .attr("y", (d, i) => Math.floor(i / rowsNum) * 35 + 20)
+    .attr("x", (d, i) => (i % rowsNum) * 100 + 35);
 };
