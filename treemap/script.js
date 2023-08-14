@@ -3,7 +3,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 const url =
   "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json";
 
-const width = 1000;
+const width = 1200;
 const height = 800;
 
 const colors = d3.scaleOrdinal().range(d3.schemeCategory10);
@@ -43,5 +43,6 @@ const drawTreemap = () => {
     .attr("data-category", (d) => d.data.category)
     .attr("data-value", (d) => d.data.value)
     .attr("width", (d) => d.x1 - d.x0)
-    .attr("height", (d) => d.y1 - d.y0);
+    .attr("height", (d) => d.y1 - d.y0)
+    .attr("transform", (d) => `translate(${d.x0}, ${d.y0})`);
 };
