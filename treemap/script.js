@@ -64,7 +64,8 @@ const drawTreemap = () => {
         .html(
           `Name: ${d.data.name}<br/>Category: ${d.data.category}<br/>Value: ${d.data.value}`
         )
-        .style("visibility", "visible");
+        .style("visibility", "visible")
+        .attr("data-value", d.data.value);
     })
     .on("mouseout", () => tooltip.style("visibility", "hidden"));
 };
