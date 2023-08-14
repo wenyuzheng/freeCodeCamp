@@ -37,5 +37,8 @@ const drawTreemap = () => {
     .enter()
     .append("rect")
     .attr("class", "tile")
-    .attr("fill", (d) => colors(d.data.category));
+    .attr("fill", (d) => colors(d.data.category))
+    .attr("data-name", (d) => d.data.name)
+    .attr("data-category", (d) => d.data.category)
+    .attr("data-value", (d) => d.data.value);
 };
