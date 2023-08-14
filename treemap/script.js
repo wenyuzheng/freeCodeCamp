@@ -16,6 +16,7 @@ d3.json(url).then((data) => {
   console.log(dataset);
 
   drawTreemap();
+  addLegend();
 });
 
 const drawTreemap = () => {
@@ -25,9 +26,9 @@ const drawTreemap = () => {
     .sum((d) => d.value)
     .sort((a, b) => b.value - a.value);
 
-  console.log(rootData.leaves());
+  //   console.log(rootData.leaves());
   d3.treemap().size([width, height])(rootData);
-  console.log(rootData.leaves());
+  //   console.log(rootData.leaves());
 
   // Draw canvas
   const canvas = d3
@@ -50,4 +51,15 @@ const drawTreemap = () => {
     .attr("height", (d) => d.y1 - d.y0)
     .attr("transform", (d) => `translate(${d.x0}, ${d.y0})`)
     .style("stroke", "black");
+};
+
+const addLegend = () => {
+  const categories = dataset.children.map((e) => e.name);
+  console.log(categories);
+  d3.select("#legend")
+    .selectAll("rect")
+    .data(categories)
+    .enter()
+    .append("rect")
+    .attr("class", "legend-item");
 };
