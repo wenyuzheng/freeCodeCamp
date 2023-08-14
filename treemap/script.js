@@ -20,7 +20,11 @@ d3.json(url).then((data) => {
 
 const drawTreemap = () => {
   // Convert data to treemap
-  const rootData = d3.hierarchy(dataset).sum((d) => d.value);
+  const rootData = d3
+    .hierarchy(dataset)
+    .sum((d) => d.value)
+    .sort((a, b) => b.value - a.value);
+
   console.log(rootData.leaves());
   d3.treemap().size([width, height])(rootData);
   console.log(rootData.leaves());
@@ -44,5 +48,6 @@ const drawTreemap = () => {
     .attr("data-value", (d) => d.data.value)
     .attr("width", (d) => d.x1 - d.x0)
     .attr("height", (d) => d.y1 - d.y0)
-    .attr("transform", (d) => `translate(${d.x0}, ${d.y0})`);
+    .attr("transform", (d) => `translate(${d.x0}, ${d.y0})`)
+    .style("stroke", "black");
 };
