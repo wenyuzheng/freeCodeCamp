@@ -6,7 +6,9 @@ const url =
 const width = 1200;
 const height = 800;
 
-const colors = d3.scaleOrdinal().range(d3.schemeCategory10);
+const colors = d3
+  .scaleOrdinal()
+  .range([...d3.schemePaired, ...d3.schemeTableau10]);
 
 let dataset;
 
@@ -56,10 +58,17 @@ const drawTreemap = () => {
 const addLegend = () => {
   const categories = dataset.children.map((e) => e.name);
   console.log(categories);
-  d3.select("#legend")
-    .selectAll("rect")
-    .data(categories)
-    .enter()
-    .append("rect")
-    .attr("class", "legend-item");
+  const legend = d3.select("#legend").attr("width", 600).attr("height", 400);
+
+  //   legend
+  //     .selectAll("rect")
+  //     .data(categories)
+  //     .enter()
+  //     .append("rect")
+  //     .attr("class", "legend-item")
+  //     .attr("fill", (d) => colors(d))
+  //     .attr("width", "30px")
+  //     .attr("height", "30px")
+  //     .attr("y", (d, i) => (i % (categories.length / 2)) * 35)
+  //     .attr("x", (d, i) => (i % 2) * 35);
 };
