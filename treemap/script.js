@@ -6,6 +6,8 @@ const url =
 const width = 1000;
 const height = 800;
 
+const colors = d3.scaleOrdinal().range(d3.schemeCategory10);
+
 let dataset;
 
 d3.json(url).then((data) => {
@@ -34,5 +36,6 @@ const drawTreemap = () => {
     .data(rootData.leaves())
     .enter()
     .append("rect")
-    .attr("class", "tile");
+    .attr("class", "tile")
+    .attr("fill", (d) => colors(d.data.category));
 };
